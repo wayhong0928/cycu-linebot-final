@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage, TextMessage, PostbackEvent
+from linebot.models import ButtonsTemplate
 from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextComponent
 from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, DatetimePickerAction, PostbackAction
 from linebot.models import FlexSendMessage, URIAction
