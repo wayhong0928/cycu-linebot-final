@@ -41,7 +41,7 @@ def callback(request):
           if mtext == '服裝規定':
             sendButton(event)
           #else:
-            #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))          
+            #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))鸚鵡          
         else:
           line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
       
