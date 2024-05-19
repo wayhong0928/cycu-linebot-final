@@ -126,3 +126,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+OAUTH2_PROVIDER = {
+    'SCOPES': {'calendar': 'Read/write access to Calendar'},
+    'CLIENT_ID': os.getenv('GOOGLE_API_USERID'),
+    'CLIENT_SECRET': os.getenv('GOOGLE_API_USERAPIKEY'),
+}
+
+GOOGLE_TOKEN_FILE = 'token.json'

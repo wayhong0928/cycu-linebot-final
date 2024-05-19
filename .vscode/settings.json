@@ -1,8 +1,12 @@
 {
   "cSpell.words": [
+    "creds",
     "Cycu",
     "dotenv",
+    "googleapiclient",
+    "Infoadmin",
     "linebot",
+    "mtext",
     "Postback",
     "testwise",
     "uwsf",

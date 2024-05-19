@@ -1,10 +1,8 @@
 import os
-import datetime
 from dotenv import load_dotenv
-from django.shortcuts import render
-from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
+
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage, TextMessage, PostbackEvent, PostbackTemplateAction
@@ -12,11 +10,13 @@ from linebot.models import ButtonsTemplate
 from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextComponent
 from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, DatetimePickerAction, PostbackAction
 from linebot.models import FlexSendMessage, URIAction
-from urllib.parse import parse_qsl
+
+from testwise import google_calender
 
 load_dotenv()
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 parser = WebhookParser(os.getenv("LINE_CHANNEL_SECRET"))
+
 
 # Create your views here.
 
@@ -40,8 +40,10 @@ def callback(request):
           mtext = event.message.text
           if mtext == '服裝規定':
             sendButton(event)
-          #else:
-            #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))鸚鵡          
+          elif mtext == '建立活動':
+            google_calender.CreateCalendarEvent(event)
+          else:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
         else:
           line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
       
@@ -80,3 +82,4 @@ def sendButton(event):
     line_bot_api.reply_message(event.reply_token, message)
   except:
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!')) 
+
