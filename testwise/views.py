@@ -9,8 +9,8 @@ from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAct
 from linebot.models import ButtonsTemplate
 from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextComponent
 from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, DatetimePickerAction, PostbackAction
-from linebot.models import FlexSendMessage, URIAction
-
+from linebot.models import FlexSendMessage, URIAction, MessageAction
+from urllib.parse import parse_qsl
 from testwise import google_calender
 
 load_dotenv()
@@ -42,7 +42,7 @@ def callback(request):
             sendButton(event)
           elif mtext == '建立活動':
             google_calender.CreateCalendarEvent(event)
-          elif mtext == '@彈性配置':
+          elif mtext == '生活機能':
             sendFlex(event)
           else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
@@ -92,27 +92,29 @@ def sendFlex(event):
       header = BoxComponent(
         layout = 'vertical', #垂直
         contents = [
-            TextComponent(text='生活機能', weight='bold', size='xl'),
+          TextComponent(text='生活機能', weight='bold', size='xl'),
         ]
       ),
       hero = ImageComponent(
-        url = '',
+        url = 'https://imgur.com/9dri9pX.png',
         size = 'full',
-        aspect_ratio = '792:555', #長寬比例
+        aspect_ratio = '792:650', #長寬比例
         aspect_mode = 'cover',
       ),
       body = BoxComponent(
         layout = 'vertical',
         contents = [
-          TextComponent(text='評價', size='md'),
+          TextComponent(text='機能', size='md'),
           BoxComponent(
             layout = 'baseline',
             margin = 'md',
             contents = [
-              IconComponent(size='lg', url='https://i.imgur.com/GsWCrIx.png'),
-              TextComponent(text='', size='sm', color='#999999', flex=0),
-              IconComponent(size='lg', url='https://i.imgur.com/sJPhtB3.png'),
-              TextComponent(text='', size='sm', color='#999999', flex=0),
+              IconComponent(size='lg', url='https://imgur.com/H9wLmQd.png'),
+              TextComponent(text='食', size='sm', color='#999999', flex=0),
+              IconComponent(size='lg', url='https://imgur.com/3MzOu7o.png'),
+              TextComponent(text='住', size='sm', color='#999999', flex=0),
+              IconComponent(size='lg', url='https://imgur.com/iUWIO3W.png'),
+              TextComponent(text='行', size='sm', color='#999999', flex=0),
             ]
           ),
           BoxComponent(
@@ -122,49 +124,51 @@ def sendFlex(event):
               BoxComponent(
                 layout = 'baseline',
                 contents=[
-                  TextComponent(text='營業地址', size='sm', color='#aaaaaa', flex=2),
-                  TextComponent(text='桃園市中壢區實踐路66號', size='sm', color='#666666', flex=5),
+                  TextComponent(text='學校地址', size='sm', color='#aaaaaa', flex=2),
+                  TextComponent(text='320桃園市中壢區中北路200號', size='sm', color='#666666', flex=5),
                 ],
               ),
-              SeparatorComponent(color='#0000EF'),
+              SeparatorComponent(color='#0000EF'), 
               BoxComponent(
                 layout = 'baseline',
                 contents=[
                   TextComponent(text='營業時間', size='sm', color='#aaaaaa', flex=2),
                   TextComponent(text='10:00 - 22:00', size='sm', color='#666666', flex=5),
                 ],
-              ),
+              ),             
             ]
           ),
           BoxComponent(
             layout = 'horizontal',
-            margin = 'xl',
+            margin = 'xxl',
+            spacing='md',
             contents = [
               ButtonComponent(
                 style='primary',
-                height='xs',
-                action=URIAction(label='電話聯絡', uri=''),
+                height='sm',
+                action=MessageAction(label='住宿', text='1.恩慈/良善/力行宿舍\n2.租屋價位\n雅房：3000-5000\n五坪：5000-6000\n七~九坪：6500-8000\n個人小公寓：9000-12000\n家庭式：20000-25000'),
               ),
               ButtonComponent(
                 style='secondary',
-                height='xs',
-                action=URIAction(label='訂購網頁', uri=''),
+                height='sm',
+                action=MessageAction(label='飲食', text='中原夜市'),
               )
             ]
           ),
           BoxComponent(
             layout = 'horizontal',
-            margin = 'xl',
+            margin = 'xxl',
+            spacing='md',
             contents = [
               ButtonComponent(
                 style='primary',
-                height='xs',
-                action=URIAction(label='查看菜單', uri=''),
+                height='sm',
+                action=MessageAction(label='交通', text='公車155、156可達校內'),
               ),
               ButtonComponent(
                 style='secondary',
-                height='xs',
-                action=MessageAction(label='當月推薦', text='珍珠紅茶拿鐵')
+                height='sm',
+                action=URIAction(label='電話', uri='tel:032659999'),
               )
             ]
           )
@@ -173,11 +177,109 @@ def sendFlex(event):
       footer = BoxComponent(
         layout = 'vertical',
         contents=[
-          TextComponent(text='Copyright@', size='sm', color='#888888', align = 'center'),
+          TextComponent(text='Copyright@testwise 2024', size='sm', color='#888888', align = 'center'),
         ]
       ),
     )
-    message = FlexSendMessage(alt_text="彈性配置範例", contents=bubble)
+    message = FlexSendMessage(alt_text="生活機能", contents=bubble)
     line_bot_api.reply_message(event.reply_token, message)
   except:
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!'))
+'''def sendFlex(event):
+    try:
+        bubble = BubbleContainer(
+            direction = 'ltr', #項目左至右
+            header = BoxComponent(
+                layout = 'vertical', #垂直
+                contents = [
+                    TextComponent(text='生活機能', weight='bold', size='xl'),
+                ]
+            ),
+            hero = ImageComponent(
+                url = 'https://photo.518.com.tw/photo/2/55/789265/16623641381465817719.png',
+                size = 'full',
+                aspect_ratio = '792:555', #長寬比例
+                aspect_mode = 'cover',
+            ),
+            body = BoxComponent(
+                layout = 'vertical',
+                contents = [
+                    TextComponent(text='機能', size='md'),
+                    BoxComponent(
+                        layout = 'baseline',
+                        margin = 'md',
+                        contents = [
+                            IconComponent(size='lg', url='https://i.imgur.com/GsWCrIx.png'),
+                            TextComponent(text='食', size='sm', color='#999999', flex=0),
+                            IconComponent(size='lg', url='https://i.imgur.com/sJPhtB3.png'),
+                            TextComponent(text='住', size='sm', color='#999999', flex=0),
+                            IconComponent(size='lg', url='https://i.imgur.com/sJPhtB3.png'),
+                            TextComponent(text='行', size='sm', color='#999999', flex=0),
+                        ]
+                    ),
+                    BoxComponent(
+                        layout = 'vertical',
+                        margin = 'lg',
+                        contents = [
+                            BoxComponent(
+                                layout = 'baseline',
+                                contents=[
+                                    TextComponent(text='學校地址', size='sm', color='#aaaaaa', flex=2),
+                                    TextComponent(text='320桃園市中壢區中北路200號', size='sm', color='#666666', flex=5),
+                                ],
+                            ),
+                            SeparatorComponent(color='#0000EF'),
+                            BoxComponent(
+                                layout = 'baseline',
+                                contents=[
+                                    TextComponent(text='營業時間', size='sm', color='#aaaaaa', flex=2),
+                                    TextComponent(text='10:00 - 22:00', size='sm', color='#666666', flex=5),
+                                ],
+                            ),
+                        ]
+                    ),
+                    BoxComponent(
+                        layout = 'horizontal',
+                        margin = 'xl',
+                        contents = [
+                            ButtonComponent(
+                                style='primary',
+                                height='xs',
+                                action=URIAction(label='電話聯絡', uri='tel:034565246'),
+                            ),
+                            ButtonComponent(
+                                style='secondary',
+                                height='xs',
+                                action=MessageAction(label='交通', text='公車155、156可達校內'),
+                            )                           
+                        ]
+                    ),
+                    BoxComponent(
+                        layout = 'horizontal',
+                        margin = 'xl',
+                        contents = [                            
+                            ButtonComponent(
+                                style='primary',
+                                height='xs',
+                                action=URIAction(label='查看菜單', uri='https://www.findmenu.tw/wp-content/uploads/2023/04/%E8%BF%B7%E5%AE%A2%E5%A4%8F%E8%8F%9C%E5%96%AE2-1024x650.png'),
+                            ),
+                            ButtonComponent(
+                                style='secondary',
+                                height='xs',
+                                action=MessageAction(label='當月推薦', text='珍珠紅茶拿鐵')
+                            )
+                        ]
+                    )
+                ],   
+            ),
+            footer = BoxComponent(
+                layout = 'vertical',
+                contents=[
+                    TextComponent(text='Copyright@testwise 2024', size='sm', color='#888888', align = 'center'),
+                ]
+            ),
+        )
+        message = FlexSendMessage(alt_text="生活機能", contents=bubble)
+        line_bot_api.reply_message(event.reply_token, message)
+    except:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!'))'''
