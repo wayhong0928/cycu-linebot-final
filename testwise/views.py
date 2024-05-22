@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage, TextMessage, PostbackEvent, PostbackTemplateAction
+from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage, TextMessage, PostbackEvent, PostbackTemplateAction, LocationSendMessage
 from linebot.models import ButtonsTemplate
 from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextComponent
 from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, DatetimePickerAction, PostbackAction
@@ -49,10 +49,14 @@ def callback(request):
         else:
           line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
 
-      '''if isinstance(event, PostbackEvent): # PostbackTemplateAction，觸發 Postback 事件
+      if isinstance(event, PostbackEvent): # PostbackTemplateAction，觸發 Postback 事件
         backData = dict(parse_qsl(event.postback.data)) # 取得 Postback 資料
-        if backData.get('action') == 'buy':
-          break'''
+        if backData.get('action') == 'room':
+          sendBack_room(event)
+        elif backData.get('action') == 'food':
+          sendBack_food(event)
+        elif backData.get('action') == 'traffic':
+          sendBack_traffic(event)
     return HttpResponse()
   else:
     return HttpResponseBadRequest()
@@ -146,12 +150,12 @@ def sendFlex(event):
               ButtonComponent(
                 style='primary',
                 height='sm',
-                action=MessageAction(label='住宿', text='1.恩慈/良善/力行宿舍\n2.租屋價位\n雅房：3000-5000\n五坪：5000-6000\n七~九坪：6500-8000\n個人小公寓：9000-12000\n家庭式：20000-25000'),
+                action=PostbackAction(label='住宿',data= 'action=room',display_text='住宿'),
               ),
               ButtonComponent(
                 style='secondary',
                 height='sm',
-                action=MessageAction(label='飲食', text='中原夜市'),
+                action=PostbackAction(label='飲食',data= 'action=food',display_text='飲食'),
               )
             ]
           ),
@@ -163,7 +167,7 @@ def sendFlex(event):
               ButtonComponent(
                 style='primary',
                 height='sm',
-                action=MessageAction(label='交通', text='公車155、156可達校內'),
+                action=PostbackAction(label='交通',data= 'action=traffic',display_text='交通'),
               ),
               ButtonComponent(
                 style='secondary',
@@ -182,6 +186,45 @@ def sendFlex(event):
       ),
     )
     message = FlexSendMessage(alt_text="生活機能", contents=bubble)
+    line_bot_api.reply_message(event.reply_token, message)
+  except:
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!'))
+
+def sendBack_room(event):
+  try:
+    text1 = '1.宿舍價位\n恩慈：每學期9000元\n良善：每學期12500元\n力行：每學期9500元'
+    text1 += '\n2.租屋價位\n雅房：3000-5000\n五坪：5000-6000\n七~九坪：6500-8000\n個人小公寓：9000-12000\n家庭式：20000-25000'  
+    message = TextSendMessage(
+        text = text1
+    )
+    line_bot_api.reply_message(event.reply_token, message)
+  except:
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!'))
+    
+def sendBack_food(event):
+  try:
+    text1 = '中原夜市'  
+    message = [
+      TextSendMessage(
+        text = text1
+      ),
+      LocationSendMessage(
+        title = '中原夜市',
+        address = '320桃園市中壢區實踐路日新路',
+        latitude = 24.955863283190382, #緯度
+        longitude = 121.24061399451166 #經度
+      ), 
+    ] 
+    line_bot_api.reply_message(event.reply_token, message)
+  except:
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!'))
+
+def sendBack_traffic(event):
+  try:
+    text1 = '公車155、156可達校內' 
+    message = TextSendMessage(
+        text = text1
+    )
     line_bot_api.reply_message(event.reply_token, message)
   except:
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!'))
