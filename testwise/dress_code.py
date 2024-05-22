@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from linebot import LineBotApi, WebhookParser
-from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage
+from linebot.models import TemplateSendMessage, MessageTemplateAction, TextSendMessage
 from linebot.models import ButtonsTemplate
 
 load_dotenv()

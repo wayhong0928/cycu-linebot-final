@@ -1,12 +1,12 @@
 import os
 import django
 from dotenv import load_dotenv
-from urllib.request import Request
 
+from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 from linebot import LineBotApi, WebhookParser
 from linebot.models import TextSendMessage
@@ -42,18 +42,20 @@ def CreateCalendarEvent(event):
     creds = get_google_credentials()
     service = build("calendar", "v3", credentials=creds)
 
-    # 這裡放置建立行事曆事件的程式碼
-    # 例如：
+    # 建立行事曆事件
+    # ? 有辦法抓到面試的時間嗎？
+    # TODO 要把學校、地點、面試描述跟時間當作參數帶進去
+
     event_data = {
-        'summary': 'TEST',
-        'location': 'CYCU_IM',
-        'description': 'TEST',
-        'start': {
-            'dateTime': '2024-05-20T10:00:00',
+        'summary': 'TEST',                     # 標題
+        'location': 'CYCU_IM',                 # 地點，點擊可以跳google map 
+        'description': 'TEST',                 # 描述
+        'start': {                             # 開始時間與時區
+            'dateTime': '2024-05-29T10:00:00',
             'timeZone': 'Asia/Taipei',
         },
         'end': {
-            'dateTime': '2024-05-20T12:00:00',
+            'dateTime': '2024-05-29T12:00:00',
             'timeZone': 'Asia/Taipei',
         },
         'reminders': {

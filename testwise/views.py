@@ -11,18 +11,21 @@ from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextCo
 from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, DatetimePickerAction, PostbackAction
 from linebot.models import FlexSendMessage, URIAction, MessageAction
 from urllib.parse import parse_qsl
-from testwise import google_calender, life_function, dress_code, web_link
+from testwise import google_calender, life_function, dress_code, web_link, interview_question, department_info, department_template
 
 load_dotenv()
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 parser = WebhookParser(os.getenv("LINE_CHANNEL_SECRET"))
 
+InterviewQuestion_name = False
+DepartmentInfo_name = False
 
 # Create your views here.
 
 @csrf_exempt
 def callback(request):
-  # global input_friend_name
+  global InterviewQuestion_name
+  global DepartmentInfo_name
   if request.method == 'POST':
     signature = request.META['HTTP_X_LINE_SIGNATURE']
     body = request.body.decode('utf-8')
@@ -45,8 +48,21 @@ def callback(request):
             life_function.sendLifeFunction(event)
           elif mtext == '快速連結':
             web_link.sendWebLink(event)
+          elif mtext == '面試建議':
+            department_template.sendDepartmentTemplate(event)
+            InterviewQuestion_name = True
+          elif mtext == '必修科目':
+            department_template.sendDepartmentTemplate(event)
+            DepartmentInfo_name = True
           else:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
+            if InterviewQuestion_name == True:
+              Department = event.message.text
+              interview_question.sendInterviewQuestion(event, Department)
+            elif DepartmentInfo_name == True:
+              Department = event.message.text
+              department_info.sendInterviewQuestion(event, Department)
+            else:
+              line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
         else:
           line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
 
