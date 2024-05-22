@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage, TextMessage, PostbackEvent, PostbackTemplateAction, LocationSendMessage
+from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage, TextMessage, PostbackEvent, PostbackTemplateAction, LocationSendMessage, ImageSendMessage
 from linebot.models import ButtonsTemplate
 from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextComponent
 from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, PostbackAction
@@ -118,7 +118,7 @@ def sendLifeFunction(event):
 def sendBack_room(event):
   try:
     text1 = '1.宿舍價位\n恩慈：每學期9000元\n良善：每學期12500元\n力行：每學期9500元'
-    text1 += '\n2.租屋價位\n雅房：3000-5000\n五坪：5000-6000\n七~九坪：6500-8000\n個人小公寓：9000-12000\n家庭式：20000-25000'  
+    text1 += '\n2.租屋價位\n雅房：3000-5000元\n五坪：5000-6000元\n七~九坪：6500-8000元\n個人小公寓：9000-12000元\n家庭式：20000-25000元'  
     message = TextSendMessage(
         text = text1
     )
@@ -146,10 +146,22 @@ def sendBack_food(event):
 
 def sendBack_traffic(event):
   try:
-    text1 = '公車155、156可達校內' 
-    message = TextSendMessage(
+    text1 = '公車155、156、167可達校內' 
+    text1 += '\nhttps://fm.cycu.edu.tw/wp-content/uploads/%E5%AE%A2%E9%81%8B%E6%99%82%E5%88%BB%E8%A1%A8.pdf'
+    text2 = '自行開車🚗' 
+    text2 += '\n國道1號\n內壢交流道\nhttps://www.cycu.edu.tw/car_1.html\n中壢交流道\nhttps://www.cycu.edu.tw/car_2.html\n國道3號\n大溪交流道\nhttps://www.cycu.edu.tw/car_3.html'
+    message = [
+      ImageSendMessage(
+        original_content_url = "https://654d-59-124-200-61.ngrok-free.app/static/route.jpg", 
+        preview_image_url = "https://654d-59-124-200-61.ngrok-free.app/static/route.jpg"
+      ),
+      TextSendMessage(
         text = text1
-    )
+      ),     
+      TextSendMessage(
+        text = text2
+      )
+    ]
     line_bot_api.reply_message(event.reply_token, message)
   except:
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!'))
