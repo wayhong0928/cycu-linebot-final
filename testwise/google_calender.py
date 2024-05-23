@@ -1,6 +1,7 @@
 import os
 import django
 from dotenv import load_dotenv
+from datetime import datetime
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -37,33 +38,37 @@ def get_google_credentials():
             token.write(creds.to_json())
     return creds
 
-def CreateCalendarEvent(event):
+def convert_line_datetime_to_google_format(line_datetime):
+  return datetime.strptime(line_datetime, '%Y-%m-%dT%H:%M').strftime('%Y-%m-%dT%H:%M:%S')
+
+def CreateCalendarEvent(event, data):
   try:
     creds = get_google_credentials()
     service = build("calendar", "v3", credentials=creds)
 
+    start_time = convert_line_datetime_to_google_format(data['start_time'])
+    end_time = convert_line_datetime_to_google_format(data['end_time'])
+
     # 建立行事曆事件
-    # ? 有辦法抓到面試的時間嗎？
-    # TODO 要把學校、地點、面試描述跟時間當作參數帶進去
 
     event_data = {
-        'summary': 'TEST',                     # 標題
-        'location': 'CYCU_IM',                 # 地點，點擊可以跳google map 
-        'description': 'TEST',                 # 描述
-        'start': {                             # 開始時間與時區
-            'dateTime': '2024-05-29T10:00:00',
-            'timeZone': 'Asia/Taipei',
-        },
-        'end': {
-            'dateTime': '2024-05-29T12:00:00',
-            'timeZone': 'Asia/Taipei',
-        },
-        'reminders': {
-            'useDefault': True,
-        },
+      'summary': '面試',
+      'location': data['location'],
+      'description': data['description'],
+      'start': {
+        'dateTime': start_time,
+        'timeZone': 'Asia/Taipei',
+      },
+      'end': {
+        'dateTime': end_time,
+        'timeZone': 'Asia/Taipei',
+      },
+      'reminders': {
+        'useDefault': True,
+      },
     }
 
     event_data = service.events().insert(calendarId='primary', body=event_data).execute()
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text='活動已建立在 Google 日曆中！'))
   except HttpError as error:
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='發生錯誤：{}'.format(error)))
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f'發生錯誤：{error}'))
