@@ -8,10 +8,10 @@ from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage, TextMessage, PostbackEvent, PostbackTemplateAction, LocationSendMessage
 from linebot.models import ButtonsTemplate
 from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextComponent
-from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, DatetimePickerAction, PostbackAction
+from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, DatetimePickerAction, PostbackAction, DatetimePickerTemplateAction
 from linebot.models import FlexSendMessage, URIAction, MessageAction
 from urllib.parse import parse_qsl
-from testwise import google_calender, life_function, dress_code, web_link, interview_question, department_info, department_template
+from testwise import google_calender, life_function, dress_code, web_link, interview_question, department_info, department_template, user_input_calender
 
 load_dotenv()
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
@@ -19,6 +19,7 @@ parser = WebhookParser(os.getenv("LINE_CHANNEL_SECRET"))
 
 InterviewQuestion_name = False
 DepartmentInfo_name = False
+conversation_state = {'step': None, 'data': {}}
 
 # Create your views here.
 
@@ -26,6 +27,7 @@ DepartmentInfo_name = False
 def callback(request):
   global InterviewQuestion_name
   global DepartmentInfo_name
+  
   if request.method == 'POST':
     signature = request.META['HTTP_X_LINE_SIGNATURE']
     body = request.body.decode('utf-8')
@@ -54,6 +56,9 @@ def callback(request):
           elif mtext == '必修科目':
             department_template.sendDepartmentTemplate(event)
             DepartmentInfo_name = True
+          elif mtext == '建立面試行事曆':
+            conversation_state['step'] = 'start_time'
+            user_input_calender.sendStartTime(event)
           else:
             if InterviewQuestion_name == True:
               Department = event.message.text
@@ -61,6 +66,8 @@ def callback(request):
             elif DepartmentInfo_name == True:
               Department = event.message.text
               department_info.sendInterviewQuestion(event, Department)
+            elif conversation_state['step']:
+              user_input_calender.handleUserInput(event, conversation_state)
             else:
               line_bot_api.reply_message(event.reply_token, TextSendMessage(text = mtext))
         else:
@@ -74,6 +81,10 @@ def callback(request):
           life_function.sendBack_food(event)
         elif backData.get('action') == 'traffic':
           life_function.sendBack_traffic(event)
+        elif conversation_state['step']:
+          user_input_calender.handleUserInput(event, conversation_state)
+
     return HttpResponse()
   else:
     return HttpResponseBadRequest()
+  
