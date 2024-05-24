@@ -35,7 +35,7 @@ def sendDepartmentTemplate(event):
               x=0,
               y=0,
               width=imgwidth,
-              height=imgheight*0.25 
+              height=imgheight*0.25
             )
           ),
           MessageImagemapAction( #顯示文字訊息
@@ -44,7 +44,7 @@ def sendDepartmentTemplate(event):
               x=0,
               y=0,
               width=imgwidth,
-              height=imgheight*0.5 
+              height=imgheight*0.5
             )
           ),
           MessageImagemapAction( #顯示文字訊息
@@ -59,9 +59,9 @@ def sendDepartmentTemplate(event):
           MessageImagemapAction( #顯示文字訊息
             text='資訊管理學系',
             area=ImagemapArea( #設定圖片範圍 #右邊出不來RRRRR
-              x=imgwidth*0.5,
+              x=0.5*imgwidth,
               y=imgheight*0.25,
-              width=imgwidth*0.5,
+              width=imgwidth,
               height=imgheight*0.25
             )
           ),
@@ -70,8 +70,8 @@ def sendDepartmentTemplate(event):
             area=ImagemapArea( #設定圖片範圍
               x=0,
               y=0,
-              width=imgwidth,
-              height=imgheight
+              width=imgwidth*0.5,
+              height=imgheight*0.5
             )
           ),
           MessageImagemapAction( #顯示文字訊息
@@ -80,7 +80,7 @@ def sendDepartmentTemplate(event):
               x=0,
               y=0,
               width=imgwidth*0.5,
-              height=imgheight*0.25
+              height=imgheight*0.75
             )
           ),
         ]
