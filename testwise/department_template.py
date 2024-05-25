@@ -19,7 +19,7 @@ parser = WebhookParser(os.getenv("LINE_CHANNEL_SECRET"))
 
 def sendDepartmentTemplate(event):
   try:
-    image_url = 'https://imgur.com/czLUJcC.png'#商
+    image_url = 'https://imgur.com/43GW07l.png'#商
     imgwidth = 242
     imgheight = 296
     message = [
@@ -33,27 +33,27 @@ def sendDepartmentTemplate(event):
             text='會計學系',
             area=ImagemapArea( #設定圖片範圍
               x=0,
-              y=0,
+              y=0.25*imgwidth,
               width=imgwidth,
-              height=imgheight*0.25
+              height=imgheight
             )
           ),
           MessageImagemapAction( #顯示文字訊息
             text='財務金融學系',
             area=ImagemapArea( #設定圖片範圍
               x=0,
-              y=0,
+              y=0.5*imgwidth,
               width=imgwidth,
-              height=imgheight*0.5
+              height=imgheight
             )
           ),
           MessageImagemapAction( #顯示文字訊息
             text='國際經營與貿易學系',
             area=ImagemapArea( #設定圖片範圍
               x=0,
-              y=0,
+              y=0.75*imgwidth,
               width=imgwidth,
-              height=imgheight*0.75
+              height=imgheight
             )
           ),
           MessageImagemapAction( #顯示文字訊息
@@ -61,7 +61,7 @@ def sendDepartmentTemplate(event):
             area=ImagemapArea( #設定圖片範圍 #右邊出不來RRRRR
               x=0.5*imgwidth,
               y=imgheight*0.25,
-              width=imgwidth,
+              width=imgwidth*0.25,
               height=imgheight*0.25
             )
           ),
