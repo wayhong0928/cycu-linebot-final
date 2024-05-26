@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 
 from linebot import LineBotApi, WebhookParser
 from linebot.models import TextSendMessage
-from urllib.parse import parse_qsl
 from testwise.models import InterviewQuestion
 
 load_dotenv()
@@ -18,5 +17,7 @@ def sendInterviewQuestion(event, Department):
       TextSendMessage(text="{}".format(unit.answer_text)),
     ]
     line_bot_api.reply_message(event.reply_token, message)
+  except InterviewQuestion.DoesNotExist:
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "查無此資料！"))
   except Exception as e:
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!{}'.format(e)))
