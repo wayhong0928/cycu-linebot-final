@@ -50,19 +50,12 @@ def sendLifeFunction(event):
             layout = 'vertical',
             margin = 'lg',
             contents = [
+              #SeparatorComponent(color='#0000EF'),
               BoxComponent(
                 layout = 'baseline',
                 contents=[
                   TextComponent(text='學校地址', size='sm', color='#aaaaaa', flex=2),
                   TextComponent(text='320桃園市中壢區中北路200號', size='sm', color='#666666', flex=5),
-                ],
-              ),
-              SeparatorComponent(color='#0000EF'), 
-              BoxComponent(
-                layout = 'baseline',
-                contents=[
-                  TextComponent(text='營業時間', size='sm', color='#aaaaaa', flex=2),
-                  TextComponent(text='10:00 - 22:00', size='sm', color='#666666', flex=5),
                 ],
               ),             
             ]
@@ -152,8 +145,8 @@ def sendBack_traffic(event):
     text2 += '\n國道1號\n內壢交流道\nhttps://www.cycu.edu.tw/car_1.html\n中壢交流道\nhttps://www.cycu.edu.tw/car_2.html\n國道3號\n大溪交流道\nhttps://www.cycu.edu.tw/car_3.html'
     message = [
       ImageSendMessage(
-        original_content_url = "https://654d-59-124-200-61.ngrok-free.app/static/route.jpg", 
-        preview_image_url = "https://654d-59-124-200-61.ngrok-free.app/static/route.jpg"
+        original_content_url = "https://imgur.com/bGCKjy7.png", 
+        preview_image_url = "https://imgur.com/bGCKjy7.png"
       ),
       TextSendMessage(
         text = text1
