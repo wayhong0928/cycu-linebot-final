@@ -45,7 +45,7 @@ def sendDepartmentTemplateSix(event, url, subjects):
     line_bot_api.reply_message(event.reply_token, message)
   except Exception as e:
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '發生錯誤!{}'.format(e)))
-
+  
 # event, base_url = url, text = subjects
 # this functions has 5 subjects.
 def sendDepartmentTemplateFive(event, url, subjects):
