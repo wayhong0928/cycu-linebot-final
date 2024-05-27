@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 from linebot import LineBotApi, WebhookParser
-from linebot.models import TextSendMessage
+from linebot.models import TextSendMessage,ImageSendMessage
 from testwise.models import DepartmentInfo
 
 load_dotenv()
