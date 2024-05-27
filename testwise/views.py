@@ -7,7 +7,7 @@ from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TextSendMessage, TextMessage, PostbackEvent, MessageAction, QuickReply, QuickReplyButton
 from urllib.parse import parse_qsl
-from testwise import google_calender, life_function, dress_code, web_link, interview_question, department_info, department_template, user_input_calender
+from testwise import life_function, dress_code, web_link, interview_question, department_info, department_template, user_input_calender
 
 load_dotenv()
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
@@ -40,8 +40,6 @@ def callback(request):
           mtext = event.message.text
           if mtext == '服裝規定':
             dress_code.sendDressCode(event)
-          elif mtext == '建立活動':
-            google_calender.CreateCalendarEvent(event)
           elif mtext == '生活機能':
             life_function.sendLifeFunction(event)
           elif mtext == '快速連結':
@@ -78,6 +76,8 @@ def callback(request):
                 interview_question.sendInterviewQuestion(event, department)
               elif topic == '必修科目':
                 department_info.sendInterviewQuestion(event, department)
+          elif conversation_state['step']:
+            user_input_calender.handleUserInput(event, conversation_state)
           else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=mtext))
 

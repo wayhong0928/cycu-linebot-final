@@ -9,7 +9,7 @@ load_dotenv()
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 parser = WebhookParser(os.getenv("LINE_CHANNEL_SECRET"))
 
-# 定義科系列表
+# 學院對應科系列表
 college_departments = {
     "商學院": ["會計學系", "財務金融學系", "國際經營與貿易系", "資訊管理學系", "企業管理學系", "國際商學學士學程"],
     "設計學院": ["建築學系", "室內設計學系", "商業設計學系", "地景建築學系", "社會設計學士學位學程"],

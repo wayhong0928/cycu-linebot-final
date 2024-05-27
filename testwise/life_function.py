@@ -1,13 +1,10 @@
 import os
 from dotenv import load_dotenv
-from django.views.decorators.csrf import csrf_exempt
 
 from linebot import LineBotApi, WebhookParser
-from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TemplateSendMessage, MessageTemplateAction, TextSendMessage, TextMessage, PostbackEvent, PostbackTemplateAction, LocationSendMessage, ImageSendMessage
-from linebot.models import ButtonsTemplate
+from linebot.models import TextSendMessage,  LocationSendMessage, ImageSendMessage
 from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextComponent
-from linebot.models import IconComponent, ButtonComponent, SeparatorComponent, PostbackAction
+from linebot.models import IconComponent, ButtonComponent, PostbackAction
 from linebot.models import FlexSendMessage, URIAction
 
 load_dotenv()
