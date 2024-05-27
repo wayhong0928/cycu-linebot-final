@@ -60,7 +60,7 @@ def callback(request):
               elif mtext == "設計學院":
                 department_template.sendDepartmentTemplateFive(event, 'https://imgur.com/Ohtoz4s.png', department_template.college_departments.get(mtext, []))
               elif mtext == "電資學院":
-                department_template.sendDepartmentTemplateFive(event, 'https://imgur.com/ExN6tz5.png', department_template.college_departments.get(mtext, []))
+                department_template.sendDepartmentTemplateFive(event, 'https://imgur.com/EfcpLQY.png', department_template.college_departments.get(mtext, []))
               elif mtext == "理學院":
                 department_template.sendDepartmentTemplateSix(event, 'https://imgur.com/G6GgTyH.png', department_template.college_departments.get(mtext, []))
               elif mtext == "工學院":

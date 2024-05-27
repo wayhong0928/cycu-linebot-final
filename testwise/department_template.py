@@ -27,7 +27,6 @@ def sendDepartmentTemplateSix(event, url, subjects):
     imgwidth = 1040
     imgheight = 1274
     message = [
-      TextSendMessage(text="請點選科系，僅限一次："),
       ImagemapSendMessage(
         base_url = url,
         alt_text="選擇科系",
@@ -40,7 +39,8 @@ def sendDepartmentTemplateSix(event, url, subjects):
           MessageImagemapAction( text = subjects[4], area = ImagemapArea( x = imgwidth * 0.5, y= imgheight * 0.5,  width = imgwidth * 0.5, height = imgheight * 0.25)),
           MessageImagemapAction( text = subjects[5], area = ImagemapArea( x = imgwidth * 0.5, y= imgheight * 0.75, width = imgwidth * 0.5, height = imgheight * 0.25))
         ]
-      )
+      ),
+      TextSendMessage(text="請點選科系，僅限一次：")
     ]
     line_bot_api.reply_message(event.reply_token, message)
   except Exception as e:
@@ -53,7 +53,6 @@ def sendDepartmentTemplateFive(event, url, subjects):
     imgwidth   = 1040
     imgheight = 1274
     message = [
-      TextSendMessage(text="請點選科系，僅限一次："),
       ImagemapSendMessage(
         base_url = url, 
         alt_text="選擇科系",
@@ -65,7 +64,8 @@ def sendDepartmentTemplateFive(event, url, subjects):
           MessageImagemapAction( text = subjects[3], area = ImagemapArea( x = imgwidth * 0.5, y = imgheight * 0.5,  width = imgwidth * 0.5, height = imgheight * 0.25)),
           MessageImagemapAction( text = subjects[4], area = ImagemapArea( x = 0, y = imgheight * 0.75, width = imgwidth, height = imgheight * 0.25))
         ]
-      )
+      ),
+      TextSendMessage(text="請點選科系，僅限一次："),
     ]
     line_bot_api.reply_message(event.reply_token, message)
   except Exception as e:
