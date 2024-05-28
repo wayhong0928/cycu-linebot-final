@@ -1,8 +1,7 @@
 import os
 from dotenv import load_dotenv
 from linebot import LineBotApi, WebhookParser
-from linebot.models import TemplateSendMessage, MessageTemplateAction, TextSendMessage
-from linebot.models import ButtonsTemplate, PostbackTemplateAction
+from linebot.models import TemplateSendMessage, TextSendMessage, ButtonsTemplate, PostbackTemplateAction
 
 load_dotenv()
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))

@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 
 from linebot import LineBotApi, WebhookParser
 from linebot.models import MessageEvent, TemplateSendMessage, TextSendMessage, TextMessage, PostbackEvent
-from linebot.models import ButtonsTemplate
-from linebot.models import  DatetimePickerTemplateAction
+from linebot.models import ButtonsTemplate, DatetimePickerTemplateAction
 from testwise import google_calender
 
 load_dotenv()

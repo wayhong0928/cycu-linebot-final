@@ -25,7 +25,7 @@ creds = None
 def get_google_credentials():
     global creds
     """取得 Google 認證資訊"""
-    credentials_path = "../token.json"
+    credentials_path = "token.json"
     if os.path.exists(credentials_path):
         creds = Credentials.from_authorized_user_file(credentials_path, SCOPES)
     if not creds or not creds.valid:

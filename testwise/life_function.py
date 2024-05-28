@@ -4,8 +4,7 @@ from dotenv import load_dotenv
 from linebot import LineBotApi, WebhookParser
 from linebot.models import TextSendMessage,  LocationSendMessage, ImageSendMessage
 from linebot.models import BubbleContainer, ImageComponent, BoxComponent, TextComponent
-from linebot.models import IconComponent, ButtonComponent, PostbackAction
-from linebot.models import FlexSendMessage, URIAction
+from linebot.models import IconComponent, ButtonComponent, PostbackAction, FlexSendMessage, URIAction
 
 load_dotenv()
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
