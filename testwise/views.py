@@ -90,6 +90,12 @@ def callback(request):
           life_function.sendBack_food(event)
         elif backData.get('action') == 'traffic':
           life_function.sendBack_traffic(event)
+        elif backData.get('action') == 'boy':
+          dress_code.sendBack_boy(event)
+        elif backData.get('action') == 'girl':
+          dress_code.sendBack_girl(event)
+        elif backData.get('action') == 'mix':
+          dress_code.sendBack_mix(event)
         elif conversation_state['step']:
           user_input_calender.handleUserInput(event, conversation_state)
 
