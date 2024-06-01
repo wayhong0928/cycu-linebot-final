@@ -17,7 +17,6 @@ def sendStartTime(event):
     message = TemplateSendMessage(
       alt_text='選取日期時間',
       template=ButtonsTemplate(
-        thumbnail_image_url='https://i.imgur.com/VxVB46z.jpg',
         title='面試開始時間',
         text='請選擇：',
         actions=[
@@ -41,7 +40,6 @@ def sendEndTime(event):
     message = TemplateSendMessage(
       alt_text='選取結束日期時間',
       template=ButtonsTemplate(
-        thumbnail_image_url='https://i.imgur.com/VxVB46z.jpg',
         title='面試結束時間',
         text='請選擇：',
         actions=[
